@@ -41,7 +41,7 @@ export function RegisterForm({ className, ...props }: React.ComponentProps<"form
       setError(extractError(data, "Registration failed."))
       return
     }
-    router.push("/Auth/login")
+    router.push("/auth/login")
   }
 
   return (
@@ -105,7 +105,7 @@ export function RegisterForm({ className, ...props }: React.ComponentProps<"form
       </Button>
       <p className="text-center text-sm text-muted-foreground">
         Already have an account?{" "}
-        <a href="/Auth/login" className="underline underline-offset-4">
+        <a href="/auth/login" className="underline underline-offset-4">
           Sign in
         </a>
       </p>
