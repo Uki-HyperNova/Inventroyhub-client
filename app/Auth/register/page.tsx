@@ -11,9 +11,8 @@ export default function RegisterPage() {
             <div className="flex size-6 items-center justify-center rounded-md bg-primary text-primary-foreground">
               <GalleryVerticalEnd className="size-4" />
             </div>
-           
           </a>
-        </div> 
+        </div>
         <div className="flex flex-1 items-center justify-center">
           <div className="w-full max-w-xs">
             <RegisterForm />
@@ -23,8 +22,8 @@ export default function RegisterPage() {
       <div className="relative hidden bg-muted lg:block">
         <img
           src="https://static.vecteezy.com/system/resources/thumbnails/076/845/900/small/shipping-boxes-stacked-with-a-checklist-on-clipboard-inventory-and-supply-chain-photo.jpeg"
-          alt="https://static.vecteezy.com/system/resources/thumbnails/076/845/900/small/shipping-boxes-stacked-with-a-checklist-on-clipboard-inventory-and-supply-chain-photo.jpeg"
-          className="https://static.vecteezy.com/system/resources/thumbnails/076/845/900/small/shipping-boxes-stacked-with-a-checklist-on-clipboard-inventory-and-supply-chain-photo.jpeg"
+          alt="Inventory"
+          className="absolute inset-0 h-full w-full object-cover"
         />
       </div>
     </div>
