@@ -1,31 +1,43 @@
-import { Geist, Geist_Mono, Roboto } from "next/font/google"
-
-import "./globals.css"
-import { ThemeProvider } from "@/components/theme-provider"
+import { Geist_Mono, Inter } from "next/font/google";
+import "./globals.css";
+import { ThemeProvider } from "@/components/theme-provider";
+import { AuthProvider } from "@/providers/auth-provider";
 import { cn } from "@/lib/utils";
-import { TooltipProvider } from "@/components/ui/tooltip"
+import { Toaster } from "sonner";
 
-const roboto = Roboto({subsets:['latin'],variable:'--font-sans'})
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-sans",
+});
 
 const fontMono = Geist_Mono({
   subsets: ["latin"],
   variable: "--font-mono",
-})
+});
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode
+  children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
+    <html 
+      lang="en" 
       suppressHydrationWarning
-      className={cn("antialiased", fontMono.variable, "font-sans", roboto.variable)}
+      className={cn(
+        "antialiased",
+        inter.variable,
+        fontMono.variable
+      )}
     >
       <body>
-        <ThemeProvider><TooltipProvider>{children}</TooltipProvider></ThemeProvider>
+        <ThemeProvider>
+          <AuthProvider>
+            {children}
+            <Toaster richColors position="top-right" />
+          </AuthProvider>
+        </ThemeProvider>
       </body>
     </html>
-  )
+  );
 }
