@@ -8,20 +8,32 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { loginUser, extractError } from "@/lib/api"
+import { loginSchema } from "@/lib/validations"
 
-export function LoginForm({
-  className,
-  ...props
-}: React.ComponentProps<"div">) {
+export function LoginForm({ className, ...props }: React.ComponentProps<"div">) {
   const router = useRouter()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({})
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
 
-  async function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.SyntheticEvent) {
     e.preventDefault()
     setError("")
+    setFieldErrors({})
+
+    const result = loginSchema.safeParse({ email, password })
+    if (!result.success) {
+      const errs: Record<string, string> = {}
+      result.error.issues.forEach((issue) => {
+        const field = issue.path[0] as string
+        if (!errs[field]) errs[field] = issue.message
+      })
+      setFieldErrors(errs)
+      return
+    }
+
     setLoading(true)
     const { ok, data } = await loginUser(email, password)
     setLoading(false)
@@ -56,8 +68,10 @@ export function LoginForm({
                   placeholder="m@example.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  required
                 />
+                {fieldErrors.email && (
+                  <p className="text-xs text-destructive">{fieldErrors.email}</p>
+                )}
               </div>
               <div className="flex flex-col gap-2">
                 <Label htmlFor="password">Password</Label>
@@ -66,18 +80,17 @@ export function LoginForm({
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  required
                 />
+                {fieldErrors.password && (
+                  <p className="text-xs text-destructive">{fieldErrors.password}</p>
+                )}
               </div>
               <Button type="submit" disabled={loading}>
                 {loading ? "Logging in..." : "Login"}
               </Button>
               <p className="text-center text-sm text-muted-foreground">
                 Don&apos;t have an account?{" "}
-                <a
-                  href="/Auth/register"
-                  className="underline underline-offset-4"
-                >
+                <a href="/Auth/register" className="underline underline-offset-4">
                   Sign up
                 </a>
               </p>
@@ -85,13 +98,24 @@ export function LoginForm({
           </form>
           <div className="relative hidden bg-muted md:block">
             <img
-              src="https://static.vecteezy.com/system/resources/thumbnails/076/845/900/small/shipping-boxes-stacked-with-a-checklist-on-clipboard-inventory-and-supply-chain-photo.jpeg"
+              src="https://metricserp.com/wp-content/uploads/2024/10/warehouse-asian-manager-distribution-operator-managing-stock-tracking-looking-cardboard-boxes-shelf-storehouse-employees-searching-goods-picking-customer-order_482257-71305.webp"
               alt="Warehouse"
               className="absolute inset-0 h-full w-full object-cover"
             />
           </div>
         </CardContent>
       </Card>
+      <p className="text-center text-xs text-muted-foreground">
+        By clicking continue, you agree to our{" "}
+        <a href="#" className="underline underline-offset-4">
+          Terms of Service
+        </a>{" "}
+        and{" "}
+        <a href="#" className="underline underline-offset-4">
+          Privacy Policy
+        </a>
+        .
+      </p>
     </div>
   )
 }
