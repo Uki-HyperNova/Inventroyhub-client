@@ -163,8 +163,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               className="data-[slot=sidebar-menu-button]:p-1.5!"
             >
               <a href="#">
-                <CommandIcon className="size-5!" />
-                <span className="text-base font-semibold">Acme Inc.</span>
+                <CommandIcon className="bg-green-100 p-4 rounded-full shadow-sm" />
+                <span className="text-base font-semibold">Inventroy Hub</span>
               </a>
             </SidebarMenuButton>
           </SidebarMenuItem>
