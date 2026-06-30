@@ -41,7 +41,7 @@ export function RegisterForm({ className, ...props }: React.ComponentProps<"form
       setError(extractError(data, "Registration failed."))
       return
     }
-    router.push("/Auth/login")
+    router.push("/auth/login")
   }
 
   return (
